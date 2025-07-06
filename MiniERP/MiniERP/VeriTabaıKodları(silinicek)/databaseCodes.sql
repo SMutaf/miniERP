@@ -1,37 +1,50 @@
-CREATE DATABASE miniErpDB;
-USE miniErpDB;
 CREATE TABLE Firms (
-    FirmID INT IDENTITY(1,1) PRIMARY KEY,
-    FirmName VARCHAR(100),
-    CreatedAt DATETIME DEFAULT GETDATE()
+    FirmID INT PRIMARY KEY IDENTITY,
+    FirmName NVARCHAR(100) NOT NULL,
+    CreatedDate DATETIME DEFAULT GETDATE(),
+    IsActive BIT DEFAULT 1
 );
-
-CREATE TABLE Periods (
-    PeriodID INT PRIMARY KEY,   
-    PeriodName VARCHAR(50)     
+CREATE TABLE Departments (
+    DepartmentID INT PRIMARY KEY IDENTITY,
+    DepartmentName NVARCHAR(100) NOT NULL
 );
-
-CREATE TABLE Admins (
-    AdminID INT IDENTITY(1,1) PRIMARY KEY,
-    UserName VARCHAR(50) NOT NULL,
-    PasswordHash VARCHAR(255) NOT NULL,
-    FirmID INT UNIQUE,
-    CreatedAt DATETIME DEFAULT GETDATE(),
-
-    FOREIGN KEY (FirmID) REFERENCES Firms(FirmID)
+CREATE TABLE Roles (
+    RoleID INT PRIMARY KEY IDENTITY,
+    RoleName NVARCHAR(100) NOT NULL
 );
-
 CREATE TABLE Employees (
-    EmployeeID INT IDENTITY(1,1) PRIMARY KEY,
-    EmployeeName VARCHAR(50) NOT NULL,
-    EmployeeSurName VARCHAR(50) NOT NULL,
-    Email VARCHAR(100) NOT NULL,
+    EmployeeID INT PRIMARY KEY IDENTITY,
     FirmID INT NOT NULL,
-    PeriodID INT NOT NULL,
-    CreatedAt DATETIME DEFAULT GETDATE(),
+    FullName NVARCHAR(100) NOT NULL,
+    Email NVARCHAR(100),
+    PhoneNumber NVARCHAR(20),
+    Address NVARCHAR(250),
+
+    DepartmentID INT,
+    RoleID INT,
+
+    CreatedDate DATETIME DEFAULT GETDATE(),
+    IsActive BIT DEFAULT 1,
 
     FOREIGN KEY (FirmID) REFERENCES Firms(FirmID),
-    FOREIGN KEY (PeriodID) REFERENCES Periods(PeriodID)
+    FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID),
+    FOREIGN KEY (RoleID) REFERENCES Roles(RoleID)
 );
--- projede kullandýðým veri tabaný kodlarý aklýmda tam bi iskelet canlamdýðýndan kendi kafamdan tasarladým employe felan 
--- projeye devam edersem kullanýcýðým tablolar
+
+
+INSERT INTO Departments (DepartmentName) VALUES ('Satýþ');
+INSERT INTO Departments (DepartmentName) VALUES ('Pazarlama');
+INSERT INTO Departments (DepartmentName) VALUES ('Ýnsan Kaynaklarý');
+INSERT INTO Departments (DepartmentName) VALUES ('IT');
+
+INSERT INTO Roles (RoleName) VALUES ('Yönetici');
+INSERT INTO Roles (RoleName) VALUES ('Çalýþan');
+INSERT INTO Roles (RoleName) VALUES ('Stajyer');
+INSERT INTO Roles (RoleName) VALUES ('Uzman');
+
+INSERT INTO Employees (FirmID, FullName, Email, PhoneNumber, Address, DepartmentID, RoleID)
+VALUES 
+(1, 'Ahmet Yýlmaz', 'ahmet.yilmaz@deneme3.com', '05551234567', 'Ýstanbul, Türkiye', 1, 2),
+(1, 'Ayþe Demir', 'ayse.demir@deneme3.com', '05557654321', 'Ankara, Türkiye', 2, 3);
+
+SELECT * FROM Firms;

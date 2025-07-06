@@ -30,10 +30,8 @@
         {
             LoginPanel = new Panel();
             firmComboBox = new ComboBox();
-            periodComboBox = new ComboBox();
             loginButton = new Button();
             firmNameLabel = new Label();
-            periodLabel = new Label();
             passwordTextBox = new TextBox();
             passwordBoxLabel = new Label();
             userNameTextBox = new TextBox();
@@ -48,17 +46,15 @@
             // 
             // LoginPanel
             // 
-            LoginPanel.BackColor = SystemColors.ControlDark;
+            LoginPanel.BackColor = SystemColors.AppWorkspace;
             LoginPanel.Controls.Add(firmComboBox);
-            LoginPanel.Controls.Add(periodComboBox);
             LoginPanel.Controls.Add(loginButton);
             LoginPanel.Controls.Add(firmNameLabel);
-            LoginPanel.Controls.Add(periodLabel);
             LoginPanel.Controls.Add(passwordTextBox);
             LoginPanel.Controls.Add(passwordBoxLabel);
             LoginPanel.Controls.Add(userNameTextBox);
             LoginPanel.Controls.Add(userNameLabel);
-            LoginPanel.Location = new Point(148, 39);
+            LoginPanel.Location = new Point(116, 39);
             LoginPanel.Name = "LoginPanel";
             LoginPanel.Size = new Size(350, 256);
             LoginPanel.TabIndex = 0;
@@ -67,20 +63,10 @@
             // 
             firmComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             firmComboBox.FormattingEnabled = true;
-            firmComboBox.Location = new Point(162, 137);
+            firmComboBox.Location = new Point(158, 163);
             firmComboBox.Name = "firmComboBox";
             firmComboBox.Size = new Size(121, 23);
             firmComboBox.TabIndex = 9;
-            // 
-            // periodComboBox
-            // 
-            periodComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            periodComboBox.FormattingEnabled = true;
-            periodComboBox.Items.AddRange(new object[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" });
-            periodComboBox.Location = new Point(162, 172);
-            periodComboBox.Name = "periodComboBox";
-            periodComboBox.Size = new Size(121, 23);
-            periodComboBox.TabIndex = 8;
             // 
             // loginButton
             // 
@@ -97,25 +83,15 @@
             // 
             firmNameLabel.AutoSize = true;
             firmNameLabel.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            firmNameLabel.Location = new Point(55, 137);
+            firmNameLabel.Location = new Point(51, 163);
             firmNameLabel.Name = "firmNameLabel";
             firmNameLabel.Size = new Size(56, 17);
             firmNameLabel.TabIndex = 4;
             firmNameLabel.Text = "FİRMA :";
             // 
-            // periodLabel
-            // 
-            periodLabel.AutoSize = true;
-            periodLabel.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            periodLabel.Location = new Point(55, 173);
-            periodLabel.Name = "periodLabel";
-            periodLabel.Size = new Size(65, 17);
-            periodLabel.TabIndex = 2;
-            periodLabel.Text = "DÖNEM :";
-            // 
             // passwordTextBox
             // 
-            passwordTextBox.Location = new Point(162, 99);
+            passwordTextBox.Location = new Point(158, 125);
             passwordTextBox.Name = "passwordTextBox";
             passwordTextBox.Size = new Size(128, 23);
             passwordTextBox.TabIndex = 3;
@@ -125,7 +101,7 @@
             // 
             passwordBoxLabel.AutoSize = true;
             passwordBoxLabel.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            passwordBoxLabel.Location = new Point(55, 100);
+            passwordBoxLabel.Location = new Point(51, 126);
             passwordBoxLabel.Name = "passwordBoxLabel";
             passwordBoxLabel.Size = new Size(49, 17);
             passwordBoxLabel.TabIndex = 2;
@@ -133,7 +109,7 @@
             // 
             // userNameTextBox
             // 
-            userNameTextBox.Location = new Point(162, 61);
+            userNameTextBox.Location = new Point(158, 87);
             userNameTextBox.Name = "userNameTextBox";
             userNameTextBox.Size = new Size(128, 23);
             userNameTextBox.TabIndex = 1;
@@ -142,7 +118,7 @@
             // 
             userNameLabel.AutoSize = true;
             userNameLabel.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            userNameLabel.Location = new Point(55, 62);
+            userNameLabel.Location = new Point(51, 88);
             userNameLabel.Name = "userNameLabel";
             userNameLabel.Size = new Size(109, 17);
             userNameLabel.TabIndex = 0;
@@ -192,13 +168,12 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ControlLightLight;
+            BackColor = SystemColors.ButtonFace;
             ClientSize = new Size(584, 367);
             Controls.Add(informationPanel);
             Controls.Add(LoginPanel);
             Name = "LoginPage";
             Text = "LoginPage";
-            Load += LoginPage_Load;
             LoginPanel.ResumeLayout(false);
             LoginPanel.PerformLayout();
             informationPanel.ResumeLayout(false);
@@ -212,7 +187,6 @@
         private Label userNameLabel;
         private TextBox userNameTextBox;
         private Label firmNameLabel;
-        private Label periodLabel;
         private TextBox passwordTextBox;
         private Label passwordBoxLabel;
         private Button loginButton;
@@ -221,6 +195,5 @@
         private Label dataBaseLabel;
         private Label serverLabel;
         private ComboBox firmComboBox;
-        private ComboBox periodComboBox;
     }
 }

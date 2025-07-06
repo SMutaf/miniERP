@@ -8,19 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MiniERP
+namespace MiniERP.GUI
 {
-    public partial class ControlPage : Form
+    public partial class AddEmployeePage : Form
     {
-        public ControlPage(string userName)
+        public AddEmployeePage()
         {
             InitializeComponent();
-            accountName.Text += userName;
-        }
-
-        private void ControlPage_Load(object sender, EventArgs e)
-        {
-             
         }
     }
 }
