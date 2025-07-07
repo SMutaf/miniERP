@@ -1,4 +1,4 @@
-# **ERP giriş ekranı**
+# **ERP Son Güncellemler**
 
 Windows form uygulaması (.NET FRAMEWORK) ile yapıldı
 
