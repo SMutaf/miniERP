@@ -1,5 +1,10 @@
-﻿using MiniERP.Data;
+﻿using MiniERP.Backend.Helpers;
+using MiniERP.Backend.Managers;
+using MiniERP.Backend.Services;
+using MiniERP.Backend.Session;
+using MiniERP.Data;
 using System;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
@@ -11,23 +16,18 @@ namespace MiniERP
         public LoginPage()
         {
             InitializeComponent();
-            setDesign();
+            SetFormDesign();
             setDefaultInformations();
-            SetFirms();
-            AppLaunchConfig.SetTestKey();
+            LoadFirms();
         }
 
-        private void passwordTextBox_TextChanged(object sender, EventArgs e)
-        {
-            passwordTextBox.UseSystemPasswordChar = true;
-        }
 
         private void settingButton_Click(object sender, EventArgs e)
         {
             SettingsPage settingsPage = new SettingsPage();
             settingsPage.ShowDialog();
 
-            SetFirms();
+            LoadFirms();
             UptadeAppSessionInformation();
         }
 
@@ -48,6 +48,13 @@ namespace MiniERP
                 return;
             }
 
+            UserDatabaseService service = new UserDatabaseService();
+            if (!service.IsUserAuthorizedForFirm(username, userpass, firm))
+            {
+                MessageBox.Show("Bu kullanıcının seçilen firmada yetkisi yok. \n Veya Böyle Bir Kullanıcı Yok", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             DatabaseManager databaseManager = new DatabaseManager();
             bool authentication = databaseManager.AuthenticateUser(username, userpass,out string errMessage);
 
@@ -57,9 +64,8 @@ namespace MiniERP
                 return;
             }
 
-            UserSession.SetUserSession(username, userpass);
+            UserSession.SetUserSession(username, userpass, firm);
 
-            //Düzenlenicek
             
             this.Hide();
             ControlPage controlPage = new ControlPage(username, userpass, firm);
@@ -70,9 +76,7 @@ namespace MiniERP
 
         private void setDefaultInformations()
         {
-            RegistryManager manager = new RegistryManager();
-            manager.SetDefaultServerAndDatabaseFromRegistry();
-
+            AppLaunchConfig.SetDefaultRegistryConfiguration();
             serverLabel.Text = "Server : " + AppSession.SelectedServer;
             dataBaseLabel.Text = "Database : " + AppSession.SelectedDatabase;
         }
@@ -83,25 +87,27 @@ namespace MiniERP
             dataBaseLabel.Text = "Database : " + AppSession.SelectedDatabase;
         }
 
-        private void SetFirms()
+        private void LoadFirms()
         {
             RegistryManager manager = new RegistryManager();
             firmComboBox.Items.Clear();
-            manager.SetFirmsFromRegistry(firmComboBox);
+            manager.GetFirmsFromRegistry(firmComboBox);
         }
 
-        private void setDesign()
+        private void SetFormDesign()
         {
             this.MinimizeBox = false;
             this.MaximizeBox = false;
-            this.Text = "";
+            this.Text = "Giriş Ekranı";
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.StartPosition = FormStartPosition.CenterScreen;
 
-            setLoginPanelPosition();
+            passwordTextBox.UseSystemPasswordChar = true;
+
+            SetLoginPanelPosition();
         }
 
-        private void setLoginPanelPosition()
+        private void SetLoginPanelPosition()
         {
             LoginPanel.Location = new Point(
                 (this.ClientSize.Width - LoginPanel.Width) / 2,

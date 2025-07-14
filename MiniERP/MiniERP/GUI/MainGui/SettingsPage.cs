@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using MiniERP.Backend.Managers;
+using MiniERP.Backend.Services;
+using MiniERP.Backend.Session;
 using MiniERP.Data;
 
 namespace MiniERP
@@ -19,6 +22,7 @@ namespace MiniERP
             InitializeComponent();
             setDesign();
             getSavedConnections();
+            SetDefaultServerAndDatabase();
         }
 
         private void saveButton_Click(object sender, EventArgs e)
@@ -63,48 +67,60 @@ namespace MiniERP
         private bool saveInformations()
         {
             string sqlUsername = userNameText.Text?.Trim();
-            string sqlUserpass = userPasswordText.Text?.Trim();
-            string server = serverNameText.Text?.Trim();
-            string database = databaseText.Text?.Trim();
+            string sqlUserpass = txtUserPass.Text?.Trim();
+            string server = txtServername.Text?.Trim();
+            string database = txtDatabase.Text?.Trim();
             string firmName = txtFirm.Text?.Trim();
 
-            if (string.IsNullOrWhiteSpace(sqlUsername) || string.IsNullOrWhiteSpace(sqlUserpass) ||
-                string.IsNullOrWhiteSpace(server) || string.IsNullOrWhiteSpace(database))
+            List<string> errorMessages = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(sqlUsername)) errorMessages.Add("SQL kullanıcı adı boş olamaz.");
+            if (string.IsNullOrWhiteSpace(sqlUserpass)) errorMessages.Add("SQL şifre boş olamaz.");
+            if (string.IsNullOrWhiteSpace(server)) errorMessages.Add("SQL sunucu adı boş olamaz.");
+            if (string.IsNullOrWhiteSpace(database)) errorMessages.Add("Veritabanı adı boş olamaz.");
+            if (string.IsNullOrWhiteSpace(firmName)) errorMessages.Add("Firma adı boş olamaz.");
+
+            if (errorMessages.Count > 0)
             {
-                MessageBox.Show("SQL Bilgileri Eksik !", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(string.Join("\n", errorMessages), "Eksik Bilgiler", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
-
-            if (string.IsNullOrWhiteSpace(firmName))
-            {
-                MessageBox.Show("Firma Bilgileri Eksik !", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-
 
             RegistryManager manager = new RegistryManager();
-            bool saveToRegistry = manager.SaveFirmInfoToRegeddit(server, database, sqlUsername, sqlUserpass, firmName, out string errorMessage);
+            bool saveToRegistry = manager.VerifyConnectionAndSave(server, database, sqlUsername, sqlUserpass, firmName, out string errorMessage);
 
-            if (saveToRegistry)
-            {
-                FirmDatabaseService firmDatabaseService = new FirmDatabaseService();
-                firmDatabaseService.AddFirm(server,database ,sqlUsername, sqlUserpass, firmName);
-                MessageBox.Show("Kayıt Tamamlandı", "Durum", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return true;
-            }
-            else
+            if (!saveToRegistry)
             {
                 MessageBox.Show("Kayıt Tamamlanırken Sorun Oluştu \n" + errorMessage, "Durum", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return true;
+                return false;
             }
+
+            FirmDatabaseService firmDatabaseService = new FirmDatabaseService();
+            bool firmCreated = firmDatabaseService.AddFirm(server, database, sqlUsername, sqlUserpass, firmName);
+            if (!firmCreated)
+            {
+                return false;
+            }
+
+            UserDatabaseService userService = new UserDatabaseService();
+            bool userRelationCreated = userService.AddUser(sqlUsername, sqlUserpass, server, database, true, firmName);
+
+            if (!userRelationCreated)
+            {
+                MessageBox.Show("Firma eklendi ancak kullanıcı-firma ilişkisi oluşturulamadı", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            MessageBox.Show("Firma ve kullanıcı yetkilendirmesi başarıyla eklendi", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return true;
         }
 
         private void TryConnection()
         {
             string userName = userNameText.Text?.Trim();
-            string userPass = userPasswordText.Text?.Trim();
-            string server = serverNameText.Text?.Trim();
-            string database = databaseText.Text?.Trim();
+            string userPass = txtUserPass.Text?.Trim();
+            string server = txtServername.Text?.Trim();
+            string database = txtDatabase.Text?.Trim();
 
             if (string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(userPass) ||
                 string.IsNullOrWhiteSpace(server) || string.IsNullOrWhiteSpace(database))
@@ -150,15 +166,15 @@ namespace MiniERP
         private void getSavedConnections()
         {
             RegistryManager manager = new RegistryManager();
-            manager.LoadServersAndDatabasesFromRegistry(comboBoxServers, comboBoxDatabases);
+            manager.GetServersAndDatabasesFromRegistry(comboBoxServers, comboBoxDatabases);
         }
 
         private void clearContents()
         {
             userNameText.Clear();
-            userPasswordText.Clear();
-            serverNameText.Clear();
-            databaseText.Clear();
+            txtUserPass.Clear();
+            txtServername.Clear();
+            txtDatabase.Clear();
             txtFirm.Clear();
         }
 
@@ -170,11 +186,26 @@ namespace MiniERP
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.StartPosition = FormStartPosition.CenterScreen;
 
+            txtUserPass.UseSystemPasswordChar = true;
+
             string server = AppSession.SelectedServer;
             string database = AppSession.SelectedDatabase;
 
             labelSelectedServer.Text = "Sql Server : " + server;
             labelSelectedDatabase.Text = "Sql Database : " + database;
+        }
+
+        private void SetDefaultServerAndDatabase()
+        {
+            if (!AppSession.IsConfigured) 
+            {
+                txtServername.Text = "Kaıyıtlı Anahtar Bulunamadı";
+                txtDatabase.Text = "Kayıtlı Anahtar Bulunamadı";
+                return;
+            }
+
+            txtServername.Text = AppSession.SelectedServer;
+            txtDatabase.Text = AppSession.SelectedDatabase;
         }
     }
 

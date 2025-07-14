@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MiniERP.Data
+namespace MiniERP.Backend.Session
 {
     internal class AppSession
     {

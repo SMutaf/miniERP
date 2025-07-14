@@ -46,7 +46,8 @@
             // 
             // LoginPanel
             // 
-            LoginPanel.BackColor = SystemColors.AppWorkspace;
+            LoginPanel.BackColor = SystemColors.Control;
+            LoginPanel.BorderStyle = BorderStyle.FixedSingle;
             LoginPanel.Controls.Add(firmComboBox);
             LoginPanel.Controls.Add(loginButton);
             LoginPanel.Controls.Add(firmNameLabel);
@@ -95,7 +96,6 @@
             passwordTextBox.Name = "passwordTextBox";
             passwordTextBox.Size = new Size(128, 23);
             passwordTextBox.TabIndex = 3;
-            passwordTextBox.TextChanged += passwordTextBox_TextChanged;
             // 
             // passwordBoxLabel
             // 
@@ -126,13 +126,14 @@
             // 
             // informationPanel
             // 
-            informationPanel.BackColor = SystemColors.AppWorkspace;
+            informationPanel.BackColor = SystemColors.Control;
+            informationPanel.BorderStyle = BorderStyle.FixedSingle;
             informationPanel.Controls.Add(dataBaseLabel);
             informationPanel.Controls.Add(serverLabel);
             informationPanel.Controls.Add(settingsButton);
-            informationPanel.Location = new Point(-2, 339);
+            informationPanel.Location = new Point(12, 335);
             informationPanel.Name = "informationPanel";
-            informationPanel.Size = new Size(587, 30);
+            informationPanel.Size = new Size(560, 30);
             informationPanel.TabIndex = 1;
             // 
             // dataBaseLabel

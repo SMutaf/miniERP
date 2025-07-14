@@ -31,6 +31,24 @@ CREATE TABLE Employees (
     FOREIGN KEY (RoleID) REFERENCES Roles(RoleID)
 );
 
+CREATE TABLE Users (
+    UserID INT PRIMARY KEY IDENTITY,
+    Username NVARCHAR(50) NOT NULL,
+    PasswordHash NVARCHAR(255) NOT NULL,
+    IsAdmin BIT DEFAULT 0,
+    CreatedDate DATETIME DEFAULT GETDATE(),
+    IsActive BIT DEFAULT 1
+);
+
+CREATE TABLE UserFirms (
+    UserFirmID INT PRIMARY KEY IDENTITY,
+    UserID INT NOT NULL,
+    FirmID INT NOT NULL,
+    IsActive BIT DEFAULT 1,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (FirmID) REFERENCES Firms(FirmID),
+    CONSTRAINT UQ_UserFirm UNIQUE (UserID, FirmID)
+);
 
 INSERT INTO Departments (DepartmentName) VALUES ('Satýþ');
 INSERT INTO Departments (DepartmentName) VALUES ('Pazarlama');
@@ -42,9 +60,5 @@ INSERT INTO Roles (RoleName) VALUES ('Çalýþan');
 INSERT INTO Roles (RoleName) VALUES ('Stajyer');
 INSERT INTO Roles (RoleName) VALUES ('Uzman');
 
-INSERT INTO Employees (FirmID, FullName, Email, PhoneNumber, Address, DepartmentID, RoleID)
-VALUES 
-(1, 'Ahmet Yýlmaz', 'ahmet.yilmaz@deneme3.com', '05551234567', 'Ýstanbul, Türkiye', 1, 2),
-(1, 'Ayþe Demir', 'ayse.demir@deneme3.com', '05557654321', 'Ankara, Türkiye', 2, 3);
 
-SELECT * FROM Firms;
+

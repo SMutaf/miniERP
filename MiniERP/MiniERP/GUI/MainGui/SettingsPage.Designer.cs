@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             sqlFormPanel = new Panel();
-            userPasswordText = new TextBox();
+            txtUserPass = new TextBox();
             userNameText = new TextBox();
-            databaseText = new TextBox();
-            serverNameText = new TextBox();
+            txtDatabase = new TextBox();
+            txtServername = new TextBox();
             connectionControlButton = new Button();
             sqlUserpasswordLabel = new Label();
             sqlUsernameLabel = new Label();
@@ -66,10 +66,10 @@
             // sqlFormPanel
             // 
             sqlFormPanel.BorderStyle = BorderStyle.FixedSingle;
-            sqlFormPanel.Controls.Add(userPasswordText);
+            sqlFormPanel.Controls.Add(txtUserPass);
             sqlFormPanel.Controls.Add(userNameText);
-            sqlFormPanel.Controls.Add(databaseText);
-            sqlFormPanel.Controls.Add(serverNameText);
+            sqlFormPanel.Controls.Add(txtDatabase);
+            sqlFormPanel.Controls.Add(txtServername);
             sqlFormPanel.Controls.Add(connectionControlButton);
             sqlFormPanel.Controls.Add(sqlUserpasswordLabel);
             sqlFormPanel.Controls.Add(sqlUsernameLabel);
@@ -80,12 +80,12 @@
             sqlFormPanel.Size = new Size(336, 215);
             sqlFormPanel.TabIndex = 0;
             // 
-            // userPasswordText
+            // txtUserPass
             // 
-            userPasswordText.Location = new Point(157, 103);
-            userPasswordText.Name = "userPasswordText";
-            userPasswordText.Size = new Size(149, 23);
-            userPasswordText.TabIndex = 9;
+            txtUserPass.Location = new Point(157, 103);
+            txtUserPass.Name = "txtUserPass";
+            txtUserPass.Size = new Size(149, 23);
+            txtUserPass.TabIndex = 9;
             // 
             // userNameText
             // 
@@ -94,19 +94,19 @@
             userNameText.Size = new Size(149, 23);
             userNameText.TabIndex = 8;
             // 
-            // databaseText
+            // txtDatabase
             // 
-            databaseText.Location = new Point(157, 44);
-            databaseText.Name = "databaseText";
-            databaseText.Size = new Size(149, 23);
-            databaseText.TabIndex = 7;
+            txtDatabase.Location = new Point(157, 44);
+            txtDatabase.Name = "txtDatabase";
+            txtDatabase.Size = new Size(149, 23);
+            txtDatabase.TabIndex = 7;
             // 
-            // serverNameText
+            // txtServername
             // 
-            serverNameText.Location = new Point(157, 15);
-            serverNameText.Name = "serverNameText";
-            serverNameText.Size = new Size(149, 23);
-            serverNameText.TabIndex = 6;
+            txtServername.Location = new Point(157, 15);
+            txtServername.Name = "txtServername";
+            txtServername.Size = new Size(149, 23);
+            txtServername.TabIndex = 6;
             // 
             // connectionControlButton
             // 
@@ -236,7 +236,7 @@
             serverSelectionsPanel.Controls.Add(serversLabel);
             serverSelectionsPanel.Location = new Point(358, 72);
             serverSelectionsPanel.Name = "serverSelectionsPanel";
-            serverSelectionsPanel.Size = new Size(203, 170);
+            serverSelectionsPanel.Size = new Size(231, 170);
             serverSelectionsPanel.TabIndex = 4;
             // 
             // buttonSetServerAndDB
@@ -265,7 +265,7 @@
             comboBoxDatabases.FormattingEnabled = true;
             comboBoxDatabases.Location = new Point(16, 98);
             comboBoxDatabases.Name = "comboBoxDatabases";
-            comboBoxDatabases.Size = new Size(159, 23);
+            comboBoxDatabases.Size = new Size(182, 23);
             comboBoxDatabases.TabIndex = 2;
             // 
             // comboBoxServers
@@ -274,7 +274,7 @@
             comboBoxServers.FormattingEnabled = true;
             comboBoxServers.Location = new Point(16, 29);
             comboBoxServers.Name = "comboBoxServers";
-            comboBoxServers.Size = new Size(159, 23);
+            comboBoxServers.Size = new Size(182, 23);
             comboBoxServers.TabIndex = 1;
             // 
             // serversLabel
@@ -304,7 +304,7 @@
             panel1.Controls.Add(selectedServerandDBLabel);
             panel1.Location = new Point(358, 248);
             panel1.Name = "panel1";
-            panel1.Size = new Size(203, 84);
+            panel1.Size = new Size(231, 84);
             panel1.TabIndex = 5;
             // 
             // labelSelectedDatabase
@@ -340,7 +340,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(573, 357);
+            ClientSize = new Size(596, 357);
             Controls.Add(panel1);
             Controls.Add(menuLabel2);
             Controls.Add(serverSelectionsPanel);
@@ -373,10 +373,10 @@
         private Label sqlUsernameLabel;
         private Label sqlDatabaseLabel;
         private Label sqlServerLabel;
-        private TextBox userPasswordText;
+        private TextBox txtUserPass;
         private TextBox userNameText;
-        private TextBox databaseText;
-        private TextBox serverNameText;
+        private TextBox txtDatabase;
+        private TextBox txtServername;
         private Panel buttonsPanel;
         private Button cancelButton;
         private Button saveButton;

@@ -1,8 +1,12 @@
 ﻿using Microsoft.Win32;
+using MiniERP.Backend.Helpers;
+using MiniERP.Backend.Managers;
+using MiniERP.Backend.Session;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,7 +16,7 @@ namespace MiniERP.Data
     {
         private RegistryKey baseKey = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Test");
 
-        public bool SaveFirmInfoToRegeddit(string server, string database, string userId, string password, string firmName, out string errorMessage)
+        public bool VerifyConnectionAndSave(string server, string database, string userId, string password, string firmName, out string errorMessage)
         {
             try
             {
@@ -44,18 +48,20 @@ namespace MiniERP.Data
                     firmaKey.SetValue("SqlServer", server);
                     firmaKey.SetValue("SqlDatabase", database);
                     firmaKey.SetValue("SqlUserName", firmUsername);
-                    firmaKey.SetValue("SqlUserPass", firmUserpass);
+
+                    string encryptedPassword = EncryptionHelper.Encrypt(firmUserpass);
+                    firmaKey.SetValue("SqlPassword", encryptedPassword);
                 }
 
                 return true;
             }
             catch (Exception ex)
             {
-                return false;
+                throw new Exception(ex.Message);
             }
         }
 
-        public void LoadServersAndDatabasesFromRegistry(ComboBox servers, ComboBox databases)
+        public void GetServersAndDatabasesFromRegistry(ComboBox servers, ComboBox databases)
         {
             using (RegistryKey baseKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Test"))
             {
@@ -87,47 +93,7 @@ namespace MiniERP.Data
             }
         }
 
-        public void SetDefaultServerAndDatabaseFromRegistry()
-        {
-            try
-            {
-                using (RegistryKey baseKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Test"))
-                {
-                    if (baseKey == null)
-                    {
-                        MessageBox.Show("Regedit BaseKey Bulunamadı.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
-                    string[] firmsKey = baseKey.GetSubKeyNames();
-                    if (firmsKey.Length == 0)
-                    {
-                        MessageBox.Show("Hiç Alt Anahtar Yok.\n" +
-                            "Test Anahtarı Otomatik Oluşturuldu", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-
-                    using (RegistryKey firmKey = baseKey.OpenSubKey(firmsKey[0]))
-                    {
-                        if (firmKey == null)
-                        {
-                            MessageBox.Show("Firma alt anahtarı açılamadı.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-
-                        AppSession.SelectedServer = firmKey.GetValue("SqlServer")?.ToString();
-                        AppSession.SelectedDatabase = firmKey.GetValue("SqlDatabase")?.ToString();
-                    }
-                }
-
-            }
-            catch (SqlException ex)
-            {
-
-            }
-        }
-
-        public void SetFirmsFromRegistry(ComboBox firms)
+        public void GetFirmsFromRegistry(ComboBox firms)
         {
             try
             {
@@ -149,8 +115,9 @@ namespace MiniERP.Data
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show(ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
     }
 }
