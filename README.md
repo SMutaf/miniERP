@@ -1,4 +1,4 @@
-# **ERP giriş ekranı**
+# **ERP Son Güncellemler**
 
 Windows form uygulaması (.NET FRAMEWORK) ile yapıldı
 
@@ -21,7 +21,11 @@ Ayarlar sayfasının sağ alt tarafında ise, uygulamanın o an kullandığı SQ
 
 Ayrıca sayfanın sağ üst kısmından hangi server ve veri tabanında işlem yapacağınızı kolayca seçebilirsiniz.
 
-Uygulamanın giriş ekranında, veritabanında kayıtlı çalışan bilgileri görüntülenir. Giriş için kullanılan kullanıcı adı ve şifre, ayarlar kısmında firmayı eklerken kullandığınız sql username ve sql passworddur.
+Uygulamanın giriş ekranında, kayıt defterinden çekilen firmalar gösterilir. Giriş için kullanılan kullanıcı adı ve şifre, ayarlar kısmında firmayı eklerken kullandığınız sql username ve sql passworddur.
+
+Kontrol sayfasında ise firmaya ait çalışanların bilgileri gösterilir.
+
+İlerleyen zamanda Çalışan ekleme silme ve kod optimizasonu ile uğraşmayı düşünüyorum.
 ![SettingPageSS](/img/settingPage.png)
 ![LoginScreenSS](/img/logIn.png)
 ![ControlPageSS](/img/controlPage.png)
