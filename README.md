@@ -3,30 +3,19 @@
 Windows form uygulaması (.NET FRAMEWORK) ile yapıldı
 
 ### **Açıklama**
-Uygulama içerisinde bir Ayarlar Sayfası yer almaktadır. Bu sayfa üzerinden:
+Admin ekleme formu eklendi ve işlevsel hale getirildi.
 
-SQL bağlantı bilgilerinizi girerek, bağlantınızı test edebilir,
+Çalışan ekleme ve silme formları oluşturuldu.
 
-Bağlantı başarılı olduktan sonra, firma ismini belirtebilir ve bu firmayı kaydedebilirsiniz.
+Users tablosu sisteme entegre edildi ve kullanıcı işlemleri tanımlandı.
 
-Kaydet butonu ile:
+Firma ile ilgili kodlar optimize edilerek sadeleştirildi.
 
-Firma bilgisi, hem belirttiğiniz veritabanına kaydedilir,
+Klasör yapısı yeniden düzenlendi, dosyalar ayrıştırıldı.
 
-Hem de Windows kayıt defterinde (Registry) CurrentUser\SOFTWARE\Test altında saklanır.
-
-Eğer bu kayıt defteri anahtarı daha önce oluşturulmamışsa, uygulama başlatıldığında sizi bilgilendirerek otomatik olarak oluşturur.
-
-Ayarlar sayfasının sağ alt tarafında ise, uygulamanın o an kullandığı SQL sunucusu ve veritabanı bilgisi anlık olarak gösterilir.
-
-Ayrıca sayfanın sağ üst kısmından hangi server ve veri tabanında işlem yapacağınızı kolayca seçebilirsiniz.
-
-Uygulamanın giriş ekranında, kayıt defterinden çekilen firmalar gösterilir. Giriş için kullanılan kullanıcı adı ve şifre, ayarlar kısmında firmayı eklerken kullandığınız sql username ve sql passworddur.
-
-Kontrol sayfasında ise firmaya ait çalışanların bilgileri gösterilir.
-
-İlerleyen zamanda Çalışan ekleme silme ve kod optimizasonu ile uğraşmayı düşünüyorum.
-![SettingPageSS](/img/settingPage.png)
-![LoginScreenSS](/img/logIn.png)
+Class yapılarında sadeleştirme ve sorumluluk ayrımı yapıldı.
 ![ControlPageSS](/img/controlPage.png)
+![EmployeePageSS](/img/addEmployeePage.png)
+![addAdminPageSS](/img/addAdminPage.png)
+
 
